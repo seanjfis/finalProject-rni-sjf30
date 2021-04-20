@@ -22,11 +22,10 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
 	for n in range(numV - 1):
 		for vertex in adjList:
 			for nbr in vertex.neigh:
-				if nbr.dist > vertex.dist + adjMat[vertex.rank][nbr.rank]:
+				if nbr.dist > vertex.dist + adjMat[vertex.rank][nbr.rank] + tol:
 					nbr.dist = vertex.dist + adjMat[vertex.rank][nbr.rank]
 					nbr.prev = vertex
-
-    return []
+	return []
     ##### Your implementation goes here. #####
 
 ################################################################################
