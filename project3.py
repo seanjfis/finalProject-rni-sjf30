@@ -18,14 +18,13 @@ detectArbitrage
 """
 def detectArbitrage(adjList, adjMat, tol=1e-15):
 	adjList[0].dist = 0
-	adjList
 	numV = len(adjList)
 	for n in range(numV - 1):
-        for vertex in adjList:
-        	for nbr in vertex.neigh:
-                    if nbr.dist > vertex.dist + adjMat[vertex.rank][nbr.rank]):
-                    	nbr.dist = vertex.dist + adjMat[vertex.rank][nbr.rank]
-                    	nbr.prev = vertex
+		for vertex in adjList:
+			for nbr in vertex.neigh:
+				if nbr.dist > vertex.dist + adjMat[vertex.rank][nbr.rank]:
+					nbr.dist = vertex.dist + adjMat[vertex.rank][nbr.rank]
+					nbr.prev = vertex
 
     return []
     ##### Your implementation goes here. #####
