@@ -201,3 +201,5 @@ def getRates(exchangeNum):
         raise Exception('Input exchangeNum not valid!')
     
     return rates, currs
+
+    print 
