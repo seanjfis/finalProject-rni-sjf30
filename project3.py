@@ -3,9 +3,9 @@ Math 560
 Project 3
 Fall 2020
 
-Partner 1:
-Partner 2:
-Date:
+Partner 1: Ryan Iki
+Partner 2: Sean Fiscus
+Date: 04-19-21
 """
 
 # Import math and p3tests.
