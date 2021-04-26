@@ -12,6 +12,8 @@ Date: 04-19-21
 import math
 from p3tests import *
 
+# TODO: ask if we should change file name
+
 ################################################################################
 
 """
@@ -49,13 +51,18 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
             # Create variable length to represent edge weight
             length = adjMat[vertex.rank][nbr.rank]
             if nbr.dist > vertex.dist + length + tol:
-                #nbr.dist = vertex.dist + length
-                #nbr.prev = vertex #TODO: why do you not include these lines?
+                #TODO: why do you not update the previous vertex here?
                 loop.append(nbr)
-                break #TODO: figure out how to break out of nested for loops
-            else:
-                continue
-            break
+
+                # TODO: ask if we should store all changed vertices or if we
+                #  can stop after finding just one
+
+                break
+                #TODO: check out how to break out of nested for loops
+
+        else:
+            continue
+        break
 
     # If loop list is empty, no negative cost cycle was detected
     # Return empty list for ranks
@@ -82,13 +89,6 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
     # in loop until starting and ending vertices are the same
     while not loop[0].isEqual(loop[-1]):
         loop.pop(0)
-
-
-    #for v in ranks:
-        #if v.isEqual(ranks[-1]):
-            #break
-        #else:
-            #ranks.remove(i)
 
     # Create empty ranks list to store the rank of each vertex in cycle
     ranks = []
