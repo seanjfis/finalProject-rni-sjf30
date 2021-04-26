@@ -20,16 +20,14 @@ detectArbitrage
 def detectArbitrage(adjList, adjMat, tol=1e-15):
     # TODO: check how to choose start
     # Select start vertex as first in adjList
-    start = adjList[0]
-
     # Set initial dist for start as 0
-    start.dist = 0
+    adjList[0].dist = 0
 
     # Create variable numV to represent number of vertices in graph
-	numV = len(adjList)
+    numV = len(adjList)
 
     # Iterate numV - 1 times
-	for n in range(numV - 1):
+    for n in range(numV - 1):
         # Look at each vertex in graph
         for vertex in adjList:
             # Check each neighbor of vertex
@@ -50,10 +48,13 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
             # Create variable length to represent edge weight
             length = adjMat[vertex.rank][nbr.rank]
             if nbr.dist > vertex.dist + length + tol:
-                nbr.dist = vertex.dist + length
-                nbr.prev = vertex
+                #nbr.dist = vertex.dist + length
+                #nbr.prev = vertex #TODO: why do you not include these lines?
                 loop.append(nbr)
-                break
+                break #TODO: figure out how to break out of nested for loops
+            else:
+                continue
+            break
 
     # No negative cost cycle is detected, so return empty list ranks
     if len(loop) == 0:
@@ -65,13 +66,23 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
         loop.append(i)
         i = i.prev
 
-    for i in loop:
-        if loop[i].isequal(loop[-1]):
-            break
-        else:
-            del loop[i]
+    loop.append(i)
 
-    return []
+    while not loop[0].isEqual(loop[-1]):
+        loop.pop(0)
+
+
+    #for v in ranks:
+        #if v.isEqual(ranks[-1]):
+            #break
+        #else:
+            #ranks.remove(i)
+
+    ranks = []
+    for j in range(len(loop) - 1, -1, -1):
+        ranks.append(loop[j].rank)
+
+    return ranks
 
 ################################################################################
 
