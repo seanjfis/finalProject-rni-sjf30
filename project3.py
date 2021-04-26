@@ -20,10 +20,10 @@ from p3tests import *
 detectArbitrage
 """
 def detectArbitrage(adjList, adjMat, tol=1e-15):
-    # TODO: check how to choose start
     # Select start vertex as first in adjList
     # Set initial dist for start as 0
     adjList[0].dist = 0
+    #TODO: initialize values as inf (distance) and None (neighbors)
 
     # Create variable numV to represent number of vertices in graph
     numV = len(adjList)
@@ -43,7 +43,7 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
                     nbr.prev = vertex
 
     # Create empty list to store vertices that are in negative cost cycle
-    loop = []
+    changed = []
     
     # Iterate 1 more time to check for changes indicating arbitrage
     for vertex in adjList:
@@ -51,28 +51,22 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
             # Create variable length to represent edge weight
             length = adjMat[vertex.rank][nbr.rank]
             if nbr.dist > vertex.dist + length + tol:
-                #TODO: why do you not update the previous vertex here?
-                loop.append(nbr)
+                nbr.dist = vertex.dist + length
+                nbr.prev = vertex
+                changed.append(nbr)
 
-                # TODO: ask if we should store all changed vertices or if we
-                #  can stop after finding just one
 
-                break
-                #TODO: check out how to break out of nested for loops
-
-        else:
-            continue
-        break
-
-    # If loop list is empty, no negative cost cycle was detected
+    # If changed list is empty, no negative cost cycle was detected
     # Return empty list for ranks
-    if len(loop) == 0:
+    if len(changed) == 0:
         return []
 
-    # If loop list is not empty, there is a negative cost cycle
+    # If changed list is not empty, there is a negative cost cycle
     # Set u to be the previous vertex to the vertex whose value changed
     # in the final iteration
-    u = loop[0].prev
+    u = changed[0].prev
+    loop = []
+    loop.append(changed[0]) #TODO: add additional code comments
 
     # Trace backwards and add vertices to loop list to close the cycle
     # While previous vertex is not already in the loop, append that vertex
@@ -89,6 +83,7 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
     # in loop until starting and ending vertices are the same
     while not loop[0].isEqual(loop[-1]):
         loop.pop(0)
+        #TODO: make more efficient by finding index of start and slicing
 
     # Create empty ranks list to store the rank of each vertex in cycle
     ranks = []
