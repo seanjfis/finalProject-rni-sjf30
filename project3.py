@@ -47,7 +47,6 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
             del loop[i]
 
     return []
-    ##### Your implementation goes here. #####
 
 ################################################################################
 
@@ -56,10 +55,10 @@ rates2mat
 """
 
 def rates2mat(rates):
-    ##### Your implementation goes here. #####
-    # Currently this only returns a copy of the rates matrix.
+    # Return adjacency matrix with correctly weighted edges
+    # Edges are weighted as -log(R) where R is the exchange
+    # rate between two currencies
     return [[-math.log(R) for R in row] for row in rates]
-    ##### Your implementation goes here. #####
 
 """
 Main function.
