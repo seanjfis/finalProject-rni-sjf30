@@ -40,6 +40,7 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
                     nbr.dist = vertex.dist + length
                     nbr.prev = vertex
 
+    # Create empty list to store vertices that are in negative cost cycle
     loop = []
     
     # Iterate 1 more time to check for changes indicating arbitrage
@@ -56,18 +57,29 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
                 continue
             break
 
-    # No negative cost cycle is detected, so return empty list ranks
+    # If loop list is empty, no negative cost cycle was detected
+    # Return empty list for ranks
     if len(loop) == 0:
         return []
 
-    i = loop[0].prev
+    # If loop list is not empty, there is a negative cost cycle
+    # Set u to be the previous vertex to the vertex whose value changed
+    # in the final iteration
+    u = loop[0].prev
 
-    while i not in loop:
-        loop.append(i)
-        i = i.prev
+    # Trace backwards and add vertices to loop list to close the cycle
+    # While previous vertex is not already in the loop, append that vertex
+    # and look at the next previous vertex
+    while u not in loop:
+        loop.append(u)
+        u = u.prev
 
-    loop.append(i)
+    # While loop stopped executing, meaning u is already present in the loop
+    # Append final vertex to loop list to close the cycle
+    loop.append(u)
 
+    # Remove vertices that are not part of cycle by removing first vertex
+    # in loop until starting and ending vertices are the same
     while not loop[0].isEqual(loop[-1]):
         loop.pop(0)
 
@@ -78,10 +90,15 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
         #else:
             #ranks.remove(i)
 
+    # Create empty ranks list to store the rank of each vertex in cycle
     ranks = []
-    for j in range(len(loop) - 1, -1, -1):
-        ranks.append(loop[j].rank)
 
+    # Iterate backwards through loop list and append the rank of each
+    # vertex to create ranks list with cycle in the correct order
+    for i in range(len(loop) - 1, -1, -1):
+        ranks.append(loop[i].rank)
+
+    # Return list ranks corresponding to the negative cost cycle
     return ranks
 
 ################################################################################
