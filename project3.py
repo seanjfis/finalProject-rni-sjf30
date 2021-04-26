@@ -41,14 +41,23 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
                 if nbr.dist > vertex.dist + length + tol:
                     nbr.dist = vertex.dist + length
                     nbr.prev = vertex
+
     loop = []
     
     # Iterate 1 more time to check for changes indicating arbitrage
     for vertex in adjList:
         for nbr in vertex.neigh:
-            if nbr.dist > vertex.dist + adjMat[vertex.rank][nbr.rank] + tol:
+            # Create variable length to represent edge weight
+            length = adjMat[vertex.rank][nbr.rank]
+            if nbr.dist > vertex.dist + length + tol:
+                nbr.dist = vertex.dist + length
+                nbr.prev = vertex
                 loop.append(nbr)
                 break
+
+    # No negative cost cycle is detected, so return empty list ranks
+    if len(loop) == 0:
+        return []
 
     i = loop[0].prev
 
