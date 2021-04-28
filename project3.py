@@ -12,8 +12,6 @@ Date: 04-19-21
 import math
 from p3tests import *
 
-# TODO: ask if we should change file name
-
 ################################################################################
 
 """
@@ -22,8 +20,11 @@ detectArbitrage
 def detectArbitrage(adjList, adjMat, tol=1e-15):
     # Select start vertex as first in adjList
     # Set initial dist for start as 0
-    adjList[0].dist = 0
     #TODO: initialize values as inf (distance) and None (neighbors)
+    for vertex in adjList:
+        vertex.dist = math.inf
+        vertex.prev = None
+    adjList[0].dist = 0
 
     # Create variable numV to represent number of vertices in graph
     numV = len(adjList)
@@ -81,9 +82,12 @@ def detectArbitrage(adjList, adjMat, tol=1e-15):
 
     # Remove vertices that are not part of cycle by removing first vertex
     # in loop until starting and ending vertices are the same
-    while not loop[0].isEqual(loop[-1]):
-        loop.pop(0)
+    # while not loop[0].isEqual(loop[-1]):
+        #loop.pop(0)
         #TODO: make more efficient by finding index of start and slicing
+    end = loop[-1]
+    startInd = loop.index(end)
+    loop = loop[startInd:]
 
     # Create empty ranks list to store the rank of each vertex in cycle
     ranks = []
