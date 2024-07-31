@@ -1,8 +1,6 @@
 # finalProject-rni-sjf30
 Final Project for Math 260 - Ryan Iki, Sean Fiscus
 
-# Currency Arbitrage Python Implementation
-
 ## Overview
 
 This project aims to detect potential arbitrage opportunities in currency exchange rates using the Bellman-Ford algorithm. It contains Python code for detecting negative cost cycles in currency exchange rates, which can indicate profitable arbitrage opportunities.
